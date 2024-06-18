@@ -20,7 +20,7 @@ def get_pairwise_metric(df: pd.DataFrame, similarity_metric: str) -> pd.DataFram
     Parameters
     ----------
     df : pandas.DataFrame
-        Samples x features, where all columns can be coerced to floats
+        Samples x features, where all columns can be coerced to float64s
     similarity_metric : str
         The pairwise comparison to calculate
 
@@ -31,10 +31,10 @@ def get_pairwise_metric(df: pd.DataFrame, similarity_metric: str) -> pd.DataFram
     """
     # Check that the input data is in the correct format
     check_similarity_metric(similarity_metric)
-    df = assert_pandas_dtypes(df=df, col_fix=float)
+    df = assert_pandas_dtypes(df=df, col_fix=np.float64)
 
     pair_df = df.transpose().corr(method=similarity_metric)
-
+    print(f" pairwise_metric shape is {pair_df.shape}")
     # Check if the metric calculation went wrong
     # (Current pandas version makes this check redundant)
     if pair_df.shape == (0, 0):
@@ -130,14 +130,18 @@ def metric_melt(
     ----------
     df : pandas.DataFrame
         A profiling dataset with a mixture of metadata and feature columns
+        
     features : list
         Which features make up the profile; included in the pairwise calculations
+        
     metadata_features : list
         Which features are considered metadata features; annotate melted dataframe and
         do not use in pairwise calculations.
+        
     eval_metric : str, optional
         Which metric to ultimately calculate. Determines whether or not to keep the full
         similarity matrix or only one diagonal. Defaults to "replicate_reproducibility".
+        
     similarity_metric : str, optional
         The pairwise comparison to calculate
 
@@ -159,7 +163,7 @@ def metric_melt(
 
     # Convert pandas column types and assert conversion success
     meta_df = assert_pandas_dtypes(df=meta_df, col_fix=str)
-    df = assert_pandas_dtypes(df=df, col_fix=float)
+    df = assert_pandas_dtypes(df=df, col_fix=np.float64)
 
     # Get pairwise metric matrix
     pair_df = get_pairwise_metric(df=df, similarity_metric=similarity_metric)

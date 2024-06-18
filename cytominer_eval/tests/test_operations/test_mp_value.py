@@ -40,7 +40,7 @@ def test_calculate_mahalanobis():
 
     maha = calculate_mahalanobis(pert_df=sub_df, control_df=control_df)
 
-    assert isinstance(maha, float)
+    assert isinstance(maha, np.float64)
     # The following value is empirically determined
     # and not theoretically justified but avoids unwanted
     # changes in the implementation of the Mahalanobis distance
@@ -66,7 +66,7 @@ def test_calculate_mp_value():
     np.random.seed(2020)
     result = calculate_mp_value(pert_df=sub_df, control_df=control_df)
 
-    assert isinstance(result, float)
+    assert isinstance(result, np.float64)
     assert result > 0
     assert result < 1
 

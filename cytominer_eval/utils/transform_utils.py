@@ -23,7 +23,7 @@ def get_upper_matrix(df: pd.DataFrame) -> np.array:
     return np.triu(np.ones(df.shape), k=1).astype(bool)
 
 
-def convert_pandas_dtypes(df: pd.DataFrame, col_fix: type = float) -> pd.DataFrame:
+def convert_pandas_dtypes(df: pd.DataFrame, col_fix: type = np.float64) -> pd.DataFrame:
     r"""Helper funtion to convert pandas column dtypes
 
     Parameters
@@ -50,7 +50,7 @@ def convert_pandas_dtypes(df: pd.DataFrame, col_fix: type = float) -> pd.DataFra
     return df
 
 
-def assert_pandas_dtypes(df: pd.DataFrame, col_fix: type = float) -> pd.DataFrame:
+def assert_pandas_dtypes(df: pd.DataFrame, col_fix: type = np.float64) -> pd.DataFrame:
     r"""Helper funtion to ensure pandas columns have compatible columns
 
     Parameters
@@ -65,7 +65,7 @@ def assert_pandas_dtypes(df: pd.DataFrame, col_fix: type = float) -> pd.DataFram
     pd.DataFrame
         A dataframe with converted columns
     """
-    assert col_fix in [str, float], "Only str and float are supported"
+    assert col_fix in [str, np.float64, np.float32], f"Only str and float are supported, col_fix is : {type(col_fix)}"
 
     df = convert_pandas_dtypes(df=df, col_fix=col_fix)
 
@@ -73,7 +73,7 @@ def assert_pandas_dtypes(df: pd.DataFrame, col_fix: type = float) -> pd.DataFram
     if col_fix == str:
         assert all([ptypes.is_string_dtype(df[x]) for x in df.columns]), assert_error
 
-    if col_fix == float:
+    if col_fix in [np.float32, np.float64]:
         assert all([ptypes.is_numeric_dtype(df[x]) for x in df.columns]), assert_error
 
     return df
@@ -140,7 +140,11 @@ def set_pair_ids():
         "index": "{pair_b}_index".format(pair_b=pair_b),
         "suffix": "_{pair_b}".format(pair_b=pair_b),
     }
-
+    print(f" pair_a is:")
+    print(f" {return_dict[pair_a]}")
+    print()
+    print(f" pair_b is:")
+    print(f" {return_dict[pair_b]}")
     return return_dict
 
 

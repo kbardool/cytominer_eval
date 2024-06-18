@@ -2,6 +2,7 @@
 
 The primary entrypoint into quickly evaluating profile quality.
 """
+import numpy as np
 import pandas as pd
 from typing import List, Union
 
@@ -25,13 +26,13 @@ def evaluate(
     operation: str = "replicate_reproducibility",
     groupby_columns: List[str] = ["Metadata_broad_sample"],
     similarity_metric: str = "pearson",
-    replicate_reproducibility_quantile: float = 0.95,
+    replicate_reproducibility_quantile: np.float32 = 0.95,
     replicate_reproducibility_return_median_cor: bool = False,
     precision_recall_k: Union[int, List[int]] = 10,
     grit_control_perts: List[str] = ["None"],
     grit_replicate_summary_method: str = "mean",
     mp_value_params: dict = {},
-    enrichment_percentile: Union[float, List[float]] = 0.99,
+    enrichment_percentile: Union[np.float32, List[np.float32]] = 0.99,
     hitk_percent_list=[2, 5, 10],
 ):
     r"""Evaluate profile quality and strength.
@@ -117,6 +118,7 @@ def evaluate(
         If percent_list == "all" a full dict with the length of classes will be created.
         Percentages are given as integers, ie 50 means 50 %.
     """
+    
     # Check replicate groups input
     check_replicate_groups(eval_metric=operation, replicate_groups=replicate_groups)
 

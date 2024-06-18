@@ -75,11 +75,11 @@ def assign_replicates(
 
 
 def compare_distributions(
-    target_distrib: List[float],
-    control_distrib: List[float],
+    target_distrib: List[np.float64],
+    control_distrib: List[np.float64],
     method: str = "zscore",
     replicate_summary_method: str = "mean",
-) -> float:
+) -> np.float64:
     """Compare two distributions and output a single score indicating the difference.
 
     Given two different vectors of distributions and a comparison method, determine how

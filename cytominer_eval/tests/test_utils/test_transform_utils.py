@@ -45,7 +45,7 @@ def test_convert_pandas_dtypes():
 
     data_string_type_df = data_df.astype(str)
     output_df = convert_pandas_dtypes(
-        data_string_type_df.loc[:, float_cols], col_fix=float
+        data_string_type_df.loc[:, float_cols], col_fix=np.float64
     )
     assert all([ptypes.is_numeric_dtype(output_df[x]) for x in output_df.columns])
 

@@ -46,7 +46,7 @@ def precision_recall(
 
     # Check to make sure that the melted dataframe is full
     assert_melt(similarity_melted_df, eval_metric="precision_recall")
-
+    print(f" Group by columns: {groupby_columns}")
     # Extract out specific columns
     pair_ids = set_pair_ids()
     groupby_cols_suffix = [
@@ -57,12 +57,13 @@ def precision_recall(
     precision_recall_df = pd.DataFrame()
     if type(k) == int:
         k = [k]
+    print(f" groupby_cols_suffix: {groupby_cols_suffix}")        
     for k_ in k:
         # Calculate precision and recall for all groups
         precision_recall_df_at_k = similarity_melted_df.groupby(
             groupby_cols_suffix
         ).apply(lambda x: calculate_precision_recall(x, k=k_))
-        precision_recall_df = precision_recall_df.append(precision_recall_df_at_k)
+        precision_recall_df = pd.concat((precision_recall_df,precision_recall_df_at_k))
 
     # Rename the columns back to the replicate groups provided
     rename_cols = dict(zip(groupby_cols_suffix, groupby_columns))

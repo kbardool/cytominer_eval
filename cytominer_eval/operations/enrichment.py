@@ -10,7 +10,7 @@ from cytominer_eval.utils.operation_utils import assign_replicates
 def enrichment(
     similarity_melted_df: pd.DataFrame,
     replicate_groups: List[str],
-    percentile: Union[float, List[float]],
+    percentile: Union[np.float32, List[np.float32]],
 ) -> pd.DataFrame:
     """Calculate the enrichment score. This score is based on the fisher exact odds score.
     Similar to the other functions, the closest connections are determined and checked with the replicates.
@@ -25,7 +25,7 @@ def enrichment(
     replicate_groups : List
         a list of metadata column names in the original profile dataframe to use as
         replicate columns.
-    percentile :  List of floats
+    percentile :  List of np.float32s
         Determines what percentage of top connections used for the enrichment calculation.
 
     Returns
@@ -38,7 +38,7 @@ def enrichment(
         similarity_melted_df=similarity_melted_df, replicate_groups=replicate_groups
     )
     # loop over all percentiles
-    if type(percentile) == float:
+    if type(percentile) == np.float32:
         percentile = [percentile]
     for p in percentile:
         # threshold based on percentile of top connections
